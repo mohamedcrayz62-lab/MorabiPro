@@ -247,7 +247,19 @@ $('cancelSaleEdit').addEventListener('click',resetSaleEdit);
 function persist(){localStorage.setItem(KEY,JSON.stringify(db));render()}
 document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.panel').forEach(x=>x.classList.toggle('active',x.id===b.dataset.tab))}));
 document.addEventListener('click',e=>{let edit=e.target.closest('[data-edit-sale]');if(edit){const sale=db.sales.find(x=>x.id===edit.dataset.editSale);if(!sale)return;editingSaleId=sale.id;const form=$('saleForm');for(const key of ['flockId','birdsSold','weight','priceKg','saleCosts','date','notes'])if(form.elements[key])form.elements[key].value=sale[key]??'';$('saleSubmitBtn').textContent='حفظ التعديلات';$('cancelSaleEdit').hidden=false;document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.tab==='sale'));document.querySelectorAll('.panel').forEach(x=>x.classList.toggle('active',x.id==='sale'));window.scrollTo({top:0,behavior:'smooth'});return}let d=e.target.closest('[data-del]');if(d){if(!confirm('متأكد بغيتي تحذف هاد السجل؟ سيتم تحديث نتيجة الدورة تلقائياً.'))return;const id=d.dataset.id;if(d.dataset.del==='flockList'){db.flocks=db.flocks.filter(x=>x.id!==id);db.expenses=db.expenses.filter(x=>x.flockId!==id);db.sales=db.sales.filter(x=>x.flockId!==id)}else if(d.dataset.del==='expenseList')db.expenses=db.expenses.filter(x=>x.id!==id);else db.sales=db.sales.filter(x=>x.id!==id);if(editingSaleId===id)resetSaleEdit();persist();return}let g=e.target.closest('[data-goto]');if(g){document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.tab===g.dataset.goto));document.querySelectorAll('.panel').forEach(x=>x.classList.toggle('active',x.id===g.dataset.goto));setTimeout(()=>{const s=$(g.dataset.goto==='expenses'?'expenseFlock':'saleFlock');if(s)s.value=g.dataset.flock},0)}});
-$('exportBtn').addEventListener('click',()=>{let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='backup-tarbiyat-djaj.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)});
+$('exportBtn').addEventListener('click',()=>{
+  const json = JSON.stringify(db, null, 2);
+  if (window.AndroidBackup && typeof window.AndroidBackup.saveBackup === 'function') {
+    window.AndroidBackup.saveBackup(json);
+  } else {
+    const blob = new Blob([json], {type:'application/json'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'backup-tarbiyat-djaj.json';
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  }
+});
 $('importFile').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{let x=JSON.parse(await f.text());if(!Array.isArray(x.flocks)||!Array.isArray(x.expenses)||!Array.isArray(x.sales))throw Error();if(confirm('استبدال البيانات الحالية بالنسخة المستوردة؟')){db=x;persist();alert('تم استيراد البيانات بنجاح')}}catch(_){alert('الملف غير صالح')}e.target.value=''});
 $('clearBtn').addEventListener('click',()=>{if(confirm('مسح جميع الدورات والمصاريف والمبيعات؟ نزّل نسخة احتياطية أولاً إذا احتجتها.')){db={flocks:[],expenses:[],sales:[]};persist()}});
 updateExpenseUnits();
