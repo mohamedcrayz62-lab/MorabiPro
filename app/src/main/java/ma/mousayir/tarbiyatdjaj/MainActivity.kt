@@ -1,12 +1,9 @@
 package ma.mousayir.tarbiyatdjaj
 
 import android.app.Activity
-import android.app.DownloadManager
-import android.os.Environment
 import android.os.Bundle
 import android.webkit.WebChromeClient
 import android.webkit.JavascriptInterface
-import android.webkit.DownloadListener
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.webkit.WebSettings
@@ -78,28 +75,6 @@ class MainActivity : Activity() {
                 }
             }
         }
-        webView.setDownloadListener { url, userAgent, contentDisposition, mimeType, _ ->
-            try {
-                val request = DownloadManager.Request(Uri.parse(url))
-                request.setMimeType(mimeType ?: "application/json")
-                request.addRequestHeader("User-Agent", userAgent)
-                request.setTitle("backup-tarbiyat-djaj.json")
-                request.setDescription("جاري تنزيل النسخة الاحتياطية")
-                request.setNotificationVisibility(
-                    DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETION
-                )
-                request.setDestinationInExternalPublicDir(
-                    Environment.DIRECTORY_DOWNLOADS,
-                    "backup-tarbiyat-djaj.json"
-                )
-                val manager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
-                manager.enqueue(request)
-                Toast.makeText(this, "بدأ تنزيل النسخة الاحتياطية", Toast.LENGTH_LONG).show()
-            } catch (e: Exception) {
-                Toast.makeText(this, "تعذر تنزيل النسخة الاحتياطية", Toast.LENGTH_LONG).show()
-            }
-        }
-
         webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
                 val uri = request?.url ?: return false
