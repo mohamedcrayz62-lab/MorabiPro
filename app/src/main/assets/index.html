@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#123d31">
+<meta name="description" content="تطبيق احترافي لتدبير دورات تربية الدجاج اللاحم وحساب المصاريف والمبيعات والنتيجة.">
+<title>MorabiPro</title>
+<style>
+:root{--g:#174b3b;--g2:#216b51;--bg:#f4f7f4;--ink:#18231e;--muted:#64736b;--line:#dce6df;--red:#b33a36}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif}header{background:linear-gradient(135deg,var(--g),var(--g2));color:white;padding:23px 16px;border-radius:0 0 22px 22px}header h1{margin:0 0 6px;font-size:23px}header p{margin:0;font-size:14px;opacity:.9}.wrap{max-width:950px;margin:auto;padding:14px}.nav{display:flex;gap:7px;overflow:auto;padding:5px 0 13px}.nav button{white-space:nowrap;border:1px solid var(--line);background:white;color:var(--g);border-radius:11px;padding:10px 12px;font:inherit;font-weight:700}.nav button.active,.btn{background:var(--g);color:white}.panel{display:none}.panel.active{display:block}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.stat,.card{background:white;border:1px solid var(--line);border-radius:15px;padding:14px;margin-bottom:12px}.stat small,.muted,.tiny{color:var(--muted);font-size:13px}.stat strong{display:block;font-size:22px;color:var(--g);margin-top:6px}h2{font-size:19px;margin:9px 0 12px}h3{font-size:16px;margin:0 0 10px}.field{display:flex;flex-direction:column;gap:5px;margin-bottom:11px}.field label{font-size:13px;color:var(--muted);font-weight:650}input,select,textarea{width:100%;border:1px solid #cbd8cf;border-radius:10px;padding:11px;font:inherit;background:white;color:var(--ink);min-width:0}textarea{min-height:65px}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.btn{border:0;border-radius:10px;padding:11px 14px;font:inherit;font-weight:700;cursor:pointer}.btn.alt{background:#e7f0e9;color:var(--g)}.btn.danger{background:#fff0ef;color:var(--red)}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.result{background:#edf6ef;border-radius:13px;padding:13px;margin:10px 0}.result strong{font-size:23px;color:var(--g)}.result .negative{color:var(--red)}.item{background:white;border:1px solid var(--line);border-radius:13px;padding:12px;margin:9px 0}.itemtop{display:flex;justify-content:space-between;align-items:center;gap:8px}.item p{margin:5px 0;font-size:14px;line-height:1.6}.pill{background:#e7f0e9;color:var(--g);border-radius:30px;padding:4px 8px;font-size:12px}.notice{background:#fff7e7;border:1px solid #f0dfb8;color:#6d5520;border-radius:12px;padding:12px;font-size:13px;line-height:1.7}.empty{text-align:center;color:var(--muted);padding:20px}.foot{text-align:center;font-size:12px;color:var(--muted);padding:16px}@media(min-width:700px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}.wrap{padding:20px}}
+
+/* Professional UI layer */
+:root{
+ --g:#123d31;--g2:#1f6b50;--bg:#f3f6f4;--ink:#17251f;--muted:#687970;
+ --line:#dfe8e2;--red:#b93832;--gold:#b7791f;--mint:#e7f5ec;--shadow:0 8px 24px rgba(20,55,40,.065)
+}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{background:radial-gradient(ellipse at top right,#e6f2e9 0,transparent 38%),var(--bg);line-height:1.55}
+header{position:relative;overflow:hidden;background:linear-gradient(130deg,#10392e 0%,#175640 58%,#2c805c 100%);padding:25px 16px 27px;border-radius:0 0 28px 28px;box-shadow:0 12px 28px rgba(18,61,49,.17)}
+header:after{content:"🐓";position:absolute;left:22px;bottom:-22px;font-size:100px;opacity:.12;transform:rotate(-12deg);pointer-events:none}
+header .wrap{position:relative;z-index:1}
+header h1{font-size:clamp(21px,5vw,29px);letter-spacing:-.4px}
+header p{max-width:560px;line-height:1.8}
+.wrap{max-width:1050px;padding:16px}
+.nav{position:sticky;top:0;z-index:20;margin:0 -2px 12px;padding:10px 2px 12px;background:rgba(243,246,244,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);scrollbar-width:thin}
+.nav button{display:flex;align-items:center;gap:7px;justify-content:center;min-height:44px;border:1px solid #dce7df;background:#fff;border-radius:13px;padding:10px 14px;box-shadow:0 2px 7px rgba(20,55,40,.035);transition:transform .18s,background .18s,border-color .18s}
+.nav button:hover{transform:translateY(-1px);border-color:#9fc5ac}
+.nav button.active{background:linear-gradient(135deg,var(--g),var(--g2));color:#fff;border-color:transparent;box-shadow:0 5px 13px rgba(18,61,49,.18)}
+.panel{animation:panelIn .22s ease}
+@keyframes panelIn{from{opacity:.35;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+h2{display:flex;align-items:center;gap:8px;font-size:19px;margin:17px 0 13px;letter-spacing:-.2px}
+h2:before{content:"";display:block;width:4px;height:21px;border-radius:4px;background:linear-gradient(var(--g2),#76b58b)}
+.stat,.card,.item{border:1px solid rgba(211,226,216,.95);border-radius:18px;box-shadow:var(--shadow)}
+.stat{position:relative;overflow:hidden;padding:16px;min-height:104px}
+.stat:after{content:"";position:absolute;inset:auto -18px -28px auto;width:76px;height:76px;border-radius:50%;background:#e9f5ed;opacity:.8}
+.stat small{position:relative;z-index:1;line-height:1.6}
+.stat strong{position:relative;z-index:1;font-size:clamp(18px,4vw,24px);overflow-wrap:anywhere;letter-spacing:-.4px}
+.card{padding:17px;margin-bottom:14px}
+.card p{line-height:1.8}
+.field{gap:7px;margin-bottom:13px}
+.field label{color:#53675b;font-size:13px}
+input,select,textarea{border:1px solid #d0ddd4;border-radius:12px;padding:12px 13px;min-height:45px;transition:border-color .18s,box-shadow .18s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:#4a9b70;box-shadow:0 0 0 3px rgba(74,155,112,.13)}
+input[readonly]{background:#f0f5f1;color:#5e7065}
+textarea{resize:vertical;min-height:82px}
+.btn{min-height:43px;border-radius:12px;padding:11px 16px;box-shadow:0 3px 8px rgba(18,61,49,.08);transition:transform .15s,filter .15s}
+.btn:hover{filter:brightness(1.04);transform:translateY(-1px)}
+.btn:active{transform:translateY(0)}
+.btn.alt{background:#e8f4eb;color:#174b3b;box-shadow:none}
+.btn.danger{background:#fff0ee;color:#a72f2a;box-shadow:none}
+.actions{gap:9px}
+.result{border:1px solid #d6eadc;background:linear-gradient(135deg,#edf8f0,#e5f3e9);border-radius:15px;padding:15px}
+.result strong{display:block;margin-top:3px;overflow-wrap:anywhere}
+.result .negative{color:var(--red)}
+.item{padding:14px;margin:10px 0;background:linear-gradient(180deg,#fff,#fcfdfc)}
+.itemtop{align-items:flex-start}
+.itemtop b{line-height:1.6}
+.item p{line-height:1.75;overflow-wrap:anywhere}
+.pill{display:inline-flex;align-items:center;white-space:nowrap;background:#e8f4eb;color:#205b40;font-weight:700}
+.notice{border-radius:15px;padding:14px 15px;line-height:1.85;background:#fff8e9;border-color:#f1dfb6}
+.empty{border:1px dashed #cbdacf;border-radius:14px;background:rgba(255,255,255,.6);line-height:1.8}
+.foot{line-height:1.8;margin-top:14px}
+form .btn[type=submit]{width:100%}
+#clearBtn{width:100%}
+#exportBtn,#importFile+label{min-height:45px}
+button:focus-visible,label.btn:focus-visible{outline:3px solid #7fb995;outline-offset:2px}
+@media(min-width:700px){
+ .wrap{padding:22px}
+ .nav{justify-content:center}
+ .nav button{flex:1}
+ .stat,.card{padding:19px}
+ .row{gap:14px}
+}
+@media(max-width:480px){
+ .wrap{padding:12px}
+ header{padding:22px 12px 24px;border-radius:0 0 23px 23px}
+ header:after{font-size:76px;left:10px}
+ .nav{gap:6px;margin-left:-12px;margin-right:-12px;padding-right:12px;padding-left:12px}
+ .nav button{padding:9px 11px;font-size:13px;min-height:42px}
+ .grid{gap:8px}
+ .stat{padding:12px;border-radius:15px;min-height:96px}
+ .stat strong{font-size:18px}
+ .row{gap:8px}
+ .card{padding:13px;border-radius:16px}
+ .item{padding:12px;border-radius:14px}
+ .btn{padding:10px 12px;font-size:14px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+</style></head>
+<body>
+<header><div class="wrap"><h1>🐓 MorabiPro</h1><p>تسجيل الكتاكيت والعلف والأدوية والمصاريف وحساب نتيجة البيع بالوزن</p></div></header>
+<main class="wrap">
+<nav class="nav" aria-label="التنقل الرئيسي">
+<button class="active" data-tab="home"><span aria-hidden="true">⌂</span> الرئيسية</button>
+<button data-tab="flocks"><span aria-hidden="true">🐣</span> دورات التربية</button>
+<button data-tab="expenses"><span aria-hidden="true">🧾</span> المصاريف والعلف</button>
+<button data-tab="sale"><span aria-hidden="true">📈</span> البيع والنتيجة</button>
+<button data-tab="backup"><span aria-hidden="true">💾</span> النسخ الاحتياطي</button>
+</nav>
+<section id="home" class="panel active">
+<div class="grid">
+<div class="stat"><small>عدد دورات التربية</small><strong id="flockCount">0</strong></div><div class="stat"><small>مجموع المصاريف المسجلة</small><strong id="allCosts">0 د.م</strong></div><div class="stat"><small>مجموع المبيعات</small><strong id="allRevenue">0 د.م</strong></div><div class="stat"><small>النتيجة الصافية المسجلة</small><strong id="allProfit">0 د.م</strong></div>
+</div>
+<div class="card"><h2>طريقة الاستعمال</h2><p>1. أنشئ دورة وسجّل عدد الكتاكيت وثمن شرائها.</p><p>2. كلما شريتي العلف أو الدواء أو خلصتي مصروف، سجّلو على الدورة الصحيحة.</p><p>3. عند البيع، دخل الوزن الإجمالي بالكيلوغرام والثمن للكيلوغرام؛ التطبيق يجمع المصاريف وينقصها من المداخيل.</p></div>
+<div class="notice">الحسابات كتستعمل الوزن الإجمالي المباع بالكيلوغرام والثمن للكيلوغرام. دخل جميع المصاريف، بما فيها النقل والكهرباء والفرشة واللقاحات واليد العاملة إن وجدت. البيانات محفوظة محلياً فهاد المتصفح؛ نزّل نسخة احتياطية بانتظام.</div>
+<h2>الدورات المسجلة</h2><div id="homeFlocks"></div>
+</section>
+<section id="flocks" class="panel">
+<h2>إضافة دورة تربية جديدة</h2><div class="card"><form id="flockForm"><div class="field"><label>اسم الدورة أو رقمها</label><input name="name" required placeholder="مثلاً: فوج أكتوبر"></div><div class="row"><div class="field"><label>تاريخ شراء الكتاكيت</label><input name="date" type="date"></div><div class="field"><label>عدد الكتاكيت المشتراة</label><input name="qty" type="number" min="1" required value="1000"></div></div><div class="row"><div class="field"><label>ثمن الكتكوت الواحد (درهم)</label><input name="chickPrice" type="number" min="0" step=".01" required placeholder="مثلاً 5.5"></div><div class="field"><label>مصاريف شراء/نقل الكتاكيت (درهم)</label><input name="initialCosts" type="number" min="0" step=".01" value="0"></div></div><div class="field"><label>ملاحظات</label><textarea name="notes" placeholder="السلالة، المورد، مكان التربية..."></textarea></div><button class="btn" type="submit">حفظ الدورة</button></form></div>
+<h2>الدورات</h2><div id="flockList"></div>
+</section>
+<section id="expenses" class="panel">
+<h2>تسجيل العلف والمصاريف</h2><div class="card"><form id="expenseForm"><div class="field"><label>الدورة</label><select name="flockId" id="expenseFlock" required></select></div><div class="row"><div class="field"><label>التاريخ</label><input name="date" type="date"></div><div class="field"><label>نوع المصروف</label><select name="type"><option>العلف</option><option>الدواء واللقاحات</option><option>الفرشة والتبن</option><option>الكهرباء والماء</option><option>النقل</option><option>اليد العاملة</option><option>التدفئة والغاز</option><option>معدات وصيانة</option><option>كراء الحضيرة</option><option>أخرى</option></select></div></div><div class="row"><div class="field"><label id="quantityLabel">الكمية</label><input name="quantity" id="expenseQuantity" type="number" min="0" step=".01" placeholder="أدخل الكمية"></div><div class="field"><label>وحدة الشراء حسب نوع المصروف</label><select name="unit" id="expenseUnit" required></select></div></div><div class="row"><div class="field"><label id="unitPriceLabel">ثمن الوحدة (درهم)</label><input name="unitPrice" id="expenseUnitPrice" type="number" min="0" step=".01" placeholder="ثمن الوحدة"></div><div class="field"><label>المبلغ الإجمالي للمصروف (درهم) — يحسب تلقائياً</label><input name="amount" id="expenseAmount" type="number" min="0" step=".01" required placeholder="الكمية × ثمن الوحدة"></div></div><p class="tiny" id="expenseCalculation">اختار نوع المصروف والوحدة، ثم دخل الكمية وثمن الوحدة ليحسب التطبيق المبلغ تلقائياً. ويمكنك تعديل المبلغ يدوياً عند الحاجة.</p><div class="field"><label>ملاحظات</label><textarea name="notes" placeholder="نوع العلف، رقم الفاتورة..."></textarea></div><button class="btn" type="submit">حفظ المصروف</button></form></div><h2>سجل المصاريف</h2><div id="expenseList"></div>
+</section>
+<section id="sale" class="panel">
+<h2>تسجيل البيع وحساب النتيجة</h2><div class="card"><form id="saleForm"><div class="field"><label>الدورة</label><select name="flockId" id="saleFlock" required></select></div><div class="row"><div class="field"><label>عدد الدجاج المباع (اختياري)</label><input name="birdsSold" type="number" min="0" placeholder="مثلاً 950"></div><div class="field"><label>الوزن الإجمالي المباع (كلغ)</label><input name="weight" type="number" min="0" step=".01" required placeholder="مثلاً 2375"></div></div><div class="row"><div class="field"><label>ثمن البيع للكيلوغرام (درهم)</label><input name="priceKg" type="number" min="0" step=".01" required placeholder="مثلاً 18"></div><div class="field"><label>مصاريف البيع/النقل الإضافية (درهم)</label><input name="saleCosts" type="number" min="0" step=".01" value="0"></div></div><div class="field"><label>تاريخ البيع</label><input name="date" type="date"></div><div class="field"><label>ملاحظات البيع</label><textarea name="notes" placeholder="المشتري، الفاتورة، الدجاج النافق..."></textarea></div><div class="actions"><button class="btn" id="saleSubmitBtn" type="submit">حفظ البيع</button><button class="btn alt" id="cancelSaleEdit" type="button" hidden>إلغاء التعديل</button></div></form></div>
+<h2>نتيجة كل دورة</h2><div id="resultsList"></div>
+</section>
+<section id="backup" class="panel"><h2>النسخ الاحتياطي</h2><div class="card"><p>نزّل ملفاً للاحتفاظ بالدورات والمصاريف والمبيعات أو استورد نسخة سابقة.</p><div class="actions"><button class="btn" id="exportBtn">تنزيل نسخة احتياطية</button><label class="btn alt" for="importFile">استيراد نسخة</label><input id="importFile" type="file" accept="application/json" hidden></div></div><div class="card"><h3>مسح كل البيانات</h3><button class="btn danger" id="clearBtn">مسح جميع البيانات</button></div></section>
+<div class="foot">أداة حسابية أولية لتتبع تربية الدجاج اللاحم، وليست ضماناً للربح أو بديلاً عن النصائح البيطرية.</div>
+</main>
+<script>
+const KEY='mousayir_tarbiyat_djaj_v1';let db={flocks:[],expenses:[],sales:[]};try{const s=localStorage.getItem(KEY);if(s)db={...db,...JSON.parse(s)}}catch(e){}
+const $=id=>document.getElementById(id);const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);let editingSaleId=null;
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function money(v){return (Number(v)||0).toLocaleString('fr-MA',{maximumFractionDigits:2})+' د.م'}
+function data(f){return Object.fromEntries(new FormData(f).entries())}
+function costsFor(id){let flock=db.flocks.find(f=>f.id===id);return (flock?(Number(flock.qty)||0)*(Number(flock.chickPrice)||0)+(Number(flock.initialCosts)||0):0)+db.expenses.filter(e=>e.flockId===id).reduce((s,e)=>s+(Number(e.amount)||0),0)+db.sales.filter(x=>x.flockId===id).reduce((s,x)=>s+(Number(x.saleCosts)||0),0)}
+function revenueFor(id){return db.sales.filter(x=>x.flockId===id).reduce((s,x)=>s+(Number(x.weight)||0)*(Number(x.priceKg)||0),0)}
+function resultFor(id){return revenueFor(id)-costsFor(id)}
+function flockName(id){return db.flocks.find(f=>f.id===id)?.name||'دورة محذوفة'}
+
+const expenseUnitOptions = {
+  'العلف': [
+    ['كيس','كيس'],['طن','طن'],['كيلوغرام','كيلوغرام'],['قنطار (100 كلغ)','قنطار (100 كلغ)']
+  ],
+  'الدواء واللقاحات': [
+    ['قنينة','قنينة'],['علبة','علبة'],['كيس دواء','كيس دواء'],['جرعة','جرعة'],['وحدة','وحدة']
+  ],
+  'الفرشة والتبن': [
+    ['بالّة','بالّة'],['كيس','كيس'],['طن','طن'],['كيلوغرام','كيلوغرام'],['حمولة','حمولة']
+  ],
+  'الكهرباء والماء': [
+    ['فاتورة','فاتورة'],['كيلوواط ساعة','كيلوواط ساعة'],['متر مكعب','متر مكعب'],['لتر','لتر']
+  ],
+  'النقل': [
+    ['رحلة','رحلة'],['حمولة','حمولة'],['كيلومتر','كيلومتر'],['خدمة','خدمة']
+  ],
+  'اليد العاملة': [
+    ['يوم عمل','يوم عمل'],['ساعة','ساعة'],['عامل/يوم','عامل/يوم'],['مبلغ إجمالي','مبلغ إجمالي']
+  ],
+  'التدفئة والغاز': [
+    ['قنينة غاز','قنينة غاز'],['لتر','لتر'],['طن','طن'],['فاتورة','فاتورة']
+  ],
+  'معدات وصيانة': [
+    ['قطعة','قطعة'],['وحدة','وحدة'],['خدمة','خدمة'],['مبلغ إجمالي','مبلغ إجمالي']
+  ],
+  'كراء الحضيرة': [
+    ['كتكوت','كتكوت']
+  ],
+  'أخرى': [
+    ['وحدة','وحدة'],['كيس','كيس'],['علبة','علبة'],['لتر','لتر'],['كيلوغرام','كيلوغرام'],['طن','طن'],['مبلغ إجمالي','مبلغ إجمالي']
+  ]
+};
+function updateExpenseUnits(){
+  const type=$('expenseForm').elements.type.value;
+  const unit=$('expenseUnit'), previous=unit.value;
+  const options=expenseUnitOptions[type]||expenseUnitOptions['أخرى'];
+  unit.innerHTML=options.map(([v,l])=>`<option value="${esc(v)}">${esc(l)}</option>`).join('');
+  if(options.some(([v])=>v===previous))unit.value=previous;
+  const labels={
+    'العلف':'الكمية (عدد الأكياس أو الأطنان أو الكيلوغرامات)',
+    'الدواء واللقاحات':'الكمية (عدد القنينات أو العلب أو الجرعات)',
+    'الفرشة والتبن':'الكمية (عدد البالات أو الأكياس أو الأطنان)',
+    'الكهرباء والماء':'الكمية حسب الوحدة المختارة',
+    'النقل':'عدد الرحلات أو وحدات الخدمة',
+    'اليد العاملة':'عدد الأيام أو الساعات أو العمال/الأيام',
+    'التدفئة والغاز':'عدد قنينات الغاز أو اللترات أو الأطنان',
+    'معدات وصيانة':'عدد القطع أو الخدمات',
+    'كراء الحضيرة':'عدد الكتاكيت في الدورة (يُملأ تلقائياً)',
+    'أخرى':'الكمية حسب الوحدة المختارة'
+  };
+  $('quantityLabel').textContent=labels[type]||'الكمية';
+  if(type==='كراء الحضيرة'){
+    $('expenseQuantity').readOnly=true;
+    $('expenseQuantity').placeholder='يُملأ تلقائياً من بيانات الدورة';
+    $('unitPriceLabel').textContent='ثمن كراء الكتكوت الواحد (درهم)';
+    $('expenseUnitPrice').placeholder='ثمن كراء كتكوت واحد';
+    syncRentQuantity();
+    $('expenseCalculation').textContent='الكراء كيغطي الدورة كاملة من البداية حتى النهاية. أدخل ثمن كراء الكتكوت الواحد، والمبلغ الإجمالي غادي يتحسب حسب عدد الكتاكيت فالدورة.';
+    calculateExpenseAmount();
+    return;
+  }
+  $('expenseQuantity').readOnly=false;
+  updateExpensePriceLabel();
+}
+function syncRentQuantity(){
+  if($('expenseForm').elements.type.value!=='كراء الحضيرة')return;
+  const flock=db.flocks.find(f=>f.id===$('expenseFlock').value);
+  $('expenseQuantity').value=flock?(Number(flock.qty)||0):'';
+  calculateExpenseAmount();
+}
+function updateExpensePriceLabel(){
+  const unit=$('expenseUnit').value||'الوحدة';
+  $('unitPriceLabel').textContent='ثمن '+unit+' الواحد (درهم)';
+  $('expenseUnitPrice').placeholder='مثلاً ثمن '+unit;
+  calculateExpenseAmount();
+}
+function calculateExpenseAmount(){
+  const q=parseFloat($('expenseQuantity').value),p=parseFloat($('expenseUnitPrice').value);
+  const amount=$('expenseAmount'),rent=$('expenseForm').elements.type.value==='كراء الحضيرة';
+  if(Number.isFinite(q)&&Number.isFinite(p)&&$('expenseQuantity').value!==''&&$('expenseUnitPrice').value!==''){
+    amount.value=(q*p).toFixed(2);
+    $('expenseCalculation').textContent=rent
+      ? `الحساب: ${q} كتكوت × ${p} درهم للكتكوت = ${(q*p).toLocaleString('fr-MA',{maximumFractionDigits:2})} درهم كراء للدورة كاملة.`
+      : `الحساب: ${q} × ${p} درهم = ${(q*p).toLocaleString('fr-MA',{maximumFractionDigits:2})} درهم. يمكنك تعديل المبلغ يدوياً عند الحاجة.`;
+  } else {
+    $('expenseCalculation').textContent=rent
+      ? 'أدخل ثمن كراء الكتكوت الواحد ليُحسب كراء الدورة كاملة.'
+      : 'دخل الكمية وثمن الوحدة ليحسب التطبيق المبلغ تلقائياً، أو اكتب المبلغ الإجمالي يدوياً.';
+  }
+}
+$('expenseForm').elements.type.addEventListener('change',updateExpenseUnits);
+$('expenseFlock').addEventListener('change',syncRentQuantity);
+$('expenseUnit').addEventListener('change',updateExpensePriceLabel);
+$('expenseQuantity').addEventListener('input',calculateExpenseAmount);
+$('expenseUnitPrice').addEventListener('input',calculateExpenseAmount);
+$('expenseAmount').addEventListener('input',()=>{$('expenseCalculation').textContent='تم تعديل المبلغ يدوياً؛ عند تغيير الكمية أو ثمن الوحدة سيعاد الحساب تلقائياً.'});
+
+function renderSelects(){for(const id of ['expenseFlock','saleFlock']){const sel=$(id),old=sel.value;sel.innerHTML=db.flocks.map(f=>`<option value="${esc(f.id)}">${esc(f.name)}</option>`).join('');if(!db.flocks.length)sel.innerHTML='<option value="">أضف دورة أولاً</option>';if(db.flocks.some(f=>f.id===old))sel.value=old}}
+function itemList(id,arr,fn){$(id).innerHTML=arr.length?arr.map((x,i)=>`<div class="item"><div class="itemtop"><b>${esc(x.name||x.type||('سجل '+(i+1)))}</b><button class="btn danger" data-del="${id}" data-id="${esc(x.id)}">حذف</button></div>${fn(x)}</div>`).join(''):'<div class="empty">مازال ما تسجل والو.</div>'}
+function render(){
+$('flockCount').textContent=db.flocks.length;let totalCost=db.flocks.reduce((s,f)=>s+costsFor(f.id),0),totalRev=db.flocks.reduce((s,f)=>s+revenueFor(f.id),0);$('allCosts').textContent=money(totalCost);$('allRevenue').textContent=money(totalRev);$('allProfit').textContent=money(totalRev-totalCost);$('allProfit').style.color=totalRev-totalCost<0?'#b33a36':'#174b3b';
+renderSelects();
+itemList('flockList',db.flocks,f=>`<p>تاريخ الشراء: ${esc(f.date||'—')} · عدد الكتاكيت: ${esc(f.qty)} · ثمن الكتكوت: ${money(f.chickPrice)}</p><p>تكلفة الكتاكيت مع مصاريف البداية: ${money((Number(f.qty)||0)*(Number(f.chickPrice)||0)+(Number(f.initialCosts)||0))}</p><p>${esc(f.notes||'')}</p><div class="actions"><button class="btn alt" data-goto="expenses" data-flock="${esc(f.id)}">إضافة مصروف</button><button class="btn alt" data-goto="sale" data-flock="${esc(f.id)}">تسجيل البيع</button></div>`);
+itemList('expenseList',db.expenses,e=>`<p>الدورة: ${esc(flockName(e.flockId))} · التاريخ: ${esc(e.date||'—')}</p><p>النوع: ${esc(e.type)} · الكمية: ${esc(e.quantity||'—')} ${esc(e.unit||'')} · ثمن الوحدة: ${e.unitPrice!==''&&e.unitPrice!=null?money(e.unitPrice):'—'}</p><p>المبلغ: <b>${money(e.amount)}</b></p><p>${esc(e.notes||'')}</p>`);
+$('resultsList').innerHTML=db.flocks.length?db.flocks.map(f=>{let rev=revenueFor(f.id),cost=costsFor(f.id),profit=rev-cost,sales=db.sales.filter(s=>s.flockId===f.id),weight=sales.reduce((sum,x)=>sum+(Number(x.weight)||0),0),birds=sales.reduce((sum,x)=>sum+(Number(x.birdsSold)||0),0);return `<div class="item"><div class="itemtop"><b>${esc(f.name)}</b><span class="pill">نتيجة الدورة</span></div><p>عدد الكتاكيت المشتراة: ${esc(f.qty)} · عدد الدجاج المسجل للبيع: ${birds||'—'}</p><p>الوزن الإجمالي المباع: ${weight.toLocaleString('fr-MA')} كلغ</p><p>مجموع المداخيل: <b>${money(rev)}</b></p><p>مجموع المصاريف (بما فيها شراء الكتاكيت ومصاريف البيع): <b>${money(cost)}</b></p><div class="result"><div class="muted">الربح أو الخسارة التقديرية</div><strong class="${profit<0?'negative':''}">${money(profit)}</strong></div><h3>عمليات البيع المسجلة</h3>${sales.length?sales.map(s=>`<div class="item"><p><b>تاريخ البيع:</b> ${esc(s.date||'—')}</p><p>عدد الدجاج: ${esc(s.birdsSold||'—')} · الوزن: ${esc(s.weight)} كلغ · ثمن الكيلو: ${money(s.priceKg)}</p><p>مداخيل البيع: <b>${money(Number(s.weight)*Number(s.priceKg))}</b> · مصاريف البيع: ${money(s.saleCosts)}</p><p>${esc(s.notes||'')}</p><div class="actions"><button class="btn alt" data-edit-sale="${esc(s.id)}">تعديل البيع</button><button class="btn danger" data-del="sales" data-id="${esc(s.id)}">حذف البيع</button></div></div>`).join(''):'<p class="empty">مازال ما تسجل حتى بيع فهاد الدورة.</p>'}<div class="actions"><button class="btn alt" data-goto="sale" data-flock="${esc(f.id)}">إضافة عملية بيع</button></div></div>`}).join(''):'<div class="empty">أضف دورة تربية أولاً لعرض النتيجة.</div>';
+itemList('homeFlocks',db.flocks,f=>`<p>الكتاكيت: ${esc(f.qty)} · المصاريف: ${money(costsFor(f.id))} · المبيعات: ${money(revenueFor(f.id))}</p><p><b>النتيجة: ${money(resultFor(f.id))}</b></p>`);
+}
+$('flockForm').addEventListener('submit',e=>{e.preventDefault();const x=data(e.currentTarget);x.id=uid();db.flocks.push(x);e.currentTarget.reset();render();persist()});
+$('expenseForm').addEventListener('submit',e=>{e.preventDefault();const x=data(e.currentTarget);if(!x.flockId)return alert('أضف دورة تربية أولاً.');x.id=uid();db.expenses.push(x);e.currentTarget.reset();updateExpenseUnits();render();persist()});
+$('saleForm').addEventListener('submit',e=>{e.preventDefault();const x=data(e.currentTarget);if(!x.flockId)return alert('أضف دورة تربية أولاً.');if(editingSaleId){const idx=db.sales.findIndex(s=>s.id===editingSaleId);if(idx<0){alert('لم يتم العثور على عملية البيع.');resetSaleEdit();return}x.id=editingSaleId;db.sales[idx]=x;alert('تم تعديل عملية البيع والنتيجة بنجاح.')}else{x.id=uid();db.sales.push(x);alert('تم حفظ عملية البيع بنجاح.')}resetSaleEdit();render();persist()});
+function resetSaleEdit(){editingSaleId=null;$('saleForm').reset();$('saleSubmitBtn').textContent='حفظ البيع';$('cancelSaleEdit').hidden=true}
+$('cancelSaleEdit').addEventListener('click',resetSaleEdit);
+function persist(){localStorage.setItem(KEY,JSON.stringify(db));render()}
+document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.panel').forEach(x=>x.classList.toggle('active',x.id===b.dataset.tab))}));
+document.addEventListener('click',e=>{let edit=e.target.closest('[data-edit-sale]');if(edit){const sale=db.sales.find(x=>x.id===edit.dataset.editSale);if(!sale)return;editingSaleId=sale.id;const form=$('saleForm');for(const key of ['flockId','birdsSold','weight','priceKg','saleCosts','date','notes'])if(form.elements[key])form.elements[key].value=sale[key]??'';$('saleSubmitBtn').textContent='حفظ التعديلات';$('cancelSaleEdit').hidden=false;document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.tab==='sale'));document.querySelectorAll('.panel').forEach(x=>x.classList.toggle('active',x.id==='sale'));window.scrollTo({top:0,behavior:'smooth'});return}let d=e.target.closest('[data-del]');if(d){if(!confirm('متأكد بغيتي تحذف هاد السجل؟ سيتم تحديث نتيجة الدورة تلقائياً.'))return;const id=d.dataset.id;if(d.dataset.del==='flockList'){db.flocks=db.flocks.filter(x=>x.id!==id);db.expenses=db.expenses.filter(x=>x.flockId!==id);db.sales=db.sales.filter(x=>x.flockId!==id)}else if(d.dataset.del==='expenseList')db.expenses=db.expenses.filter(x=>x.id!==id);else db.sales=db.sales.filter(x=>x.id!==id);if(editingSaleId===id)resetSaleEdit();persist();return}let g=e.target.closest('[data-goto]');if(g){document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.tab===g.dataset.goto));document.querySelectorAll('.panel').forEach(x=>x.classList.toggle('active',x.id===g.dataset.goto));setTimeout(()=>{const s=$(g.dataset.goto==='expenses'?'expenseFlock':'saleFlock');if(s)s.value=g.dataset.flock},0)}});
+$('exportBtn').addEventListener('click',()=>{let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='backup-tarbiyat-djaj.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)});
+$('importFile').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{let x=JSON.parse(await f.text());if(!Array.isArray(x.flocks)||!Array.isArray(x.expenses)||!Array.isArray(x.sales))throw Error();if(confirm('استبدال البيانات الحالية بالنسخة المستوردة؟')){db=x;persist();alert('تم استيراد البيانات بنجاح')}}catch(_){alert('الملف غير صالح')}e.target.value=''});
+$('clearBtn').addEventListener('click',()=>{if(confirm('مسح جميع الدورات والمصاريف والمبيعات؟ نزّل نسخة احتياطية أولاً إذا احتجتها.')){db={flocks:[],expenses:[],sales:[]};persist()}});
+updateExpenseUnits();
+render();
+// Use today's local date as a convenience for new records; existing data is unchanged.
+(function setDefaultDates(){
+  const now = new Date();
+  const today = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+  document.querySelectorAll('input[type="date"]').forEach(input => { if (!input.value) input.value = today; });
+})();
+</script></body></html>
