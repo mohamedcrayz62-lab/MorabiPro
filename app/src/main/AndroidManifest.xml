@@ -2,7 +2,7 @@
     <application
         android:allowBackup="true"
         android:label="MorabiPro"
-        android:icon="@drawable/ic_rooster"
+        android:icon="@mipmap/ic_launcher"
         android:theme="@android:style/Theme.Material.Light.NoActionBar"
         android:usesCleartextTraffic="false"
         android:supportsRtl="true">
